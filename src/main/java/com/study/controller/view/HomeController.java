@@ -105,12 +105,4 @@ public class HomeController {
       request.setAttribute("resources", resourcesList);
       return "index";
     }
-    
-    
-
-    @ApiOperation(value="403",notes="错误页面")
-    @RequestMapping(value="/403",method={RequestMethod.GET})
-    public String forbidden() {
-      return "403";
-    }
 }

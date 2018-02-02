@@ -9,42 +9,45 @@
 	<div id="dlg" style="padding:10px 20px">
 	   <div class="myftitle">基本信息</div>
 	   <form id="myfm" method="post" novalidate>
-	       <input type="hidden" name="id" th:value="${resources.id}">
+	   
 	   	   <table cellpadding="5">
                 <tr>
-                    <td>菜单名称:</td>
-                    <td><input class="easyui-validatebox" type="text" name="name" th:value="${resources.name}" data-options="required:true,validType:'length[3,32]'"></input></td>
+                    <td>登录名:</td>
+                    <td><input class="easyui-validatebox" type="text" name="username" data-options="required:false"></input></td>
                 </tr>
                 <tr>
-                    <td>资源链接:</td>
-                    <td><input class="easyui-validatebox" type="text" id="resUrl" name="resurl" th:value="${resources.resurl}" data-options="required:false" ></input></td>
+                    <td>密码:</td>
+                    <td><input class="easyui-validatebox" type="text" readonly="readonly" value="123456" name="password" data-options="required:false"></input></td>
                 </tr>
                 <tr>
-                    <td>父菜单名称:</td>
+                    <td>姓名:</td>
+                    <td><input class="easyui-validatebox" type="text" name="name" data-options="required:true,validType:'length[2,32]'"></input></td>
+                </tr>
+                <tr>
+                    <td>手机号:</td>
+                    <td><input class="easyui-validatebox" type="text" name="phone" data-options="required:true,validType:'length[7,20]'"></input></td>
+                </tr>
+                <tr>
+                    <td>地址:</td>
+                    <td><input class="easyui-validatebox" type="text" name="address" ></input></td>
+                </tr>
+                <tr>
+                    <td>所属部门:</td>
                     <td>
-                        <select class="easyui-combobox" name="parentid" style="width: 148px;" >
-	           				  <option value="0"  th:selected="${#strings.contains(resources.parentid,0)}" >--请选择--</option>
-	           				  <span th:each="res : ${resourcesList}" th:remove="tag">
-		           				<option th:value="${res.id}" th:selected="${#strings.contains(resources.parentid,res.id)}"  th:text="${res.name}"></option>
+                        <select class="easyui-combobox" name="deptId"  style="width: 148px;" >
+	           				  <span th:each="dt : ${depts}" th:remove="tag">
+		           				<option th:value="${dt.id}" th:text="${dt.name}" th:selected="${#strings.contains(deptId,dt.id)}"></option>
 	           				  </span>
 	           			</select>
 
                     </td>
                 </tr>
                 <tr>
-                    <td>资源类型:</td>
+                    <td>备注:</td>
                     <td>
-                        <select class="easyui-combobox" name="type" data-options="required:true,editable:false" disabled="disabled">
-	           				<option value="1" selected="selected">菜单</option>
-	           				<option value="2">按钮</option>
-	           			</select>
+                      <textarea rows="6" cols="50" name="mark"></textarea>
                     </td>
                 </tr>
-                <tr>
-                    <td>序列号:</td>
-                    <td><input class="easyui-numberspinner" name="sort" value="10" data-options="min:10,increment:1, editable:false"></input></td>
-                </tr>
-                
             </table>
 	   </form>
     </div>
@@ -56,21 +59,21 @@
             <a href="javascript:void(0)" class="easyui-linkbutton" th:onclick="|top.framework.closeTab('${menu.menuName}')|">关闭</a>
     	</div>
 	</div>
-	<script type="text/javascript">
+	<script th:inline="javascript">
 	var parentMenuName=[[${menu.parentMenuName}]]
 	var menuName=[[${menu.menuName}]]
 	function submitForm(){
         $('#myfm').form('submit',{
-            url: '/resources/edit.html',
+            url: '/users/add.html',
             onSubmit: function(){
                 return $(this).form('validate');
             },
             success: function(result){
                 if ("success"==result){
-                	Common.showMsg('提示',"修改成功");
+                	Common.showMsg('提示',"添加成功");
                 	top.framework.closeAndReloadTab(menuName, parentMenuName);
                 } else {
-                	Common.showMsg('提示',"修改失败");
+                	Common.showMsg('提示',"添加失败");
                 }
             }
         });

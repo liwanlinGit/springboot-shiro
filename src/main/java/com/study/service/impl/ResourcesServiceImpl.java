@@ -7,8 +7,8 @@ import com.study.mapper.ResourcesMapper;
 import com.study.model.Resources;
 import com.study.model.User;
 import com.study.service.ResourcesService;
-import com.study.util.PageBean;
 import com.study.util.PageBeanUtil;
+import com.study.util.bean.PageBean;
 
 import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
@@ -27,15 +27,6 @@ public class ResourcesServiceImpl extends BaseService<Resources> implements Reso
    @Resource
     private ResourcesMapper resourcesMapper;
 
-    @Override
-    public PageInfo<Resources> selectByPage(Resources resources, int start, int length) {
-        int page = start/length+1;
-        Example example = new Example(Resources.class);
-        //分页查询
-        PageHelper.startPage(page, length);
-        List<Resources> userList = selectByExample(example);
-        return new PageInfo<>(userList);
-    }
 
     @Override
     public List<Resources> queryAll(){

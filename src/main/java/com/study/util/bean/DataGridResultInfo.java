@@ -1,4 +1,4 @@
-package com.study.util;
+package com.study.util.bean;
 
 import java.io.Serializable;
 import java.util.ArrayList;

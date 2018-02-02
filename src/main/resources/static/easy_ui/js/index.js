@@ -49,7 +49,7 @@ function closeTab(menu, type) {
 function createFrame(url) {  
     var frame = '<iframe id="mainFrame" name="mainFrame" scrolling="auto" frameborder="0"  src="' + url 
    // + '" style=\"width:1190px;height:470px;\"></iframe>'; 
-    + '" style=\"width:100%;height:99.5%;\"></iframe>';  
+    + '" style=\"width:100%;height:98.5%;\"></iframe>';  
     return frame;  
 }
 

@@ -140,6 +140,7 @@
 }
 .accordion .accordion-body {
   border-width: 0 0 1px;
+  overflow: hidden;
 }
 .accordion-noborder {
   border-width: 0;

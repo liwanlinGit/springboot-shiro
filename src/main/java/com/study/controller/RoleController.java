@@ -7,9 +7,9 @@ import com.study.model.RoleResources;
 import com.study.model.User;
 import com.study.service.RoleResourcesService;
 import com.study.service.RoleService;
-import com.study.util.DataGridResultInfo;
-import com.study.util.PageBean;
 import com.study.util.ResultUtil;
+import com.study.util.bean.DataGridResultInfo;
+import com.study.util.bean.PageBean;
 
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.ModelAttribute;

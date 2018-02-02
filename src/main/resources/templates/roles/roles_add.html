@@ -9,11 +9,11 @@
 	<div id="dlg" style="padding:10px 20px">
 	   <div class="myftitle">基本信息</div>
 	   <form id="myfm" method="post" novalidate>
-	      <input type="hidden" name="id" th:value="${role.id}">
+	   
 	   	   <table cellpadding="5">
                 <tr>
                     <td>角色名称:</td>
-                    <td><input class="easyui-validatebox" type="text" name="roledesc" th:value="${role.roledesc}" data-options="required:true,validType:'length[3,32]'"></input></td>
+                    <td><input class="easyui-validatebox" type="text" name="roledesc" data-options="required:true,validType:'length[3,32]'"></input></td>
                 </tr>
             </table>
 	   </form>
@@ -23,22 +23,24 @@
 		<hr>
 		<div style="text-align:center;">
             <a href="javascript:void(0)" class="easyui-linkbutton" onclick="submitForm()">保存</a>
-            <a href="javascript:void(0)" class="easyui-linkbutton" onclick="top.framework.closeTab('修改角色')">关闭</a>
+            <a href="javascript:void(0)" class="easyui-linkbutton" th:onclick="|top.framework.closeTab('${menu.menuName}')|">关闭</a>
     	</div>
 	</div>
-	<script type="text/javascript">
+	<script th:inline="javascript">
+	var parentMenuName=[[${menu.parentMenuName}]]
+	var menuName=[[${menu.menuName}]]
 	function submitForm(){
         $('#myfm').form('submit',{
-            url: '../roles/edit.html',
+            url: '/roles/add.html',
             onSubmit: function(){
                 return $(this).form('validate');
             },
             success: function(result){
                 if ("success"==result){
-                	Common.showMsg('提示',"修改成功");
-                	top.framework.closeAndReloadTab('修改角色', '角色管理');
+                	Common.showMsg('提示',"添加成功");
+                	top.framework.closeAndReloadTab(menuName, parentMenuName);
                 } else {
-                	Common.showMsg('提示',"修改失败");
+                	Common.showMsg('提示',"添加失败");
                 }
             }
         });

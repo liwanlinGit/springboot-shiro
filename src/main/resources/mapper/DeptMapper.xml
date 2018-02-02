@@ -7,4 +7,16 @@
     <result column="code" jdbcType="VARCHAR" property="code" />
     <result column="parent_Id" jdbcType="INTEGER" property="parentId" />
   </resultMap>
+  
+  <select id="selectAllDept" parameterType="com.study.model.Dept" resultType="com.study.model.Dept">
+    select * from (
+       select d1.code,d1.name,d1.id,d2.name as "parentName",d1.parent_Id as "parentId" from dept d1 
+         left join  dept d2 on d1.parent_Id=d2.id) t where 1=1 
+         <if test="name!=null and name!=''">
+           and name like  CONCAT(CONCAT('%', #{name}), '%')
+         </if>
+  
+  </select>
+  
+  
 </mapper>

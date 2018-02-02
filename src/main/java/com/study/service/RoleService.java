@@ -1,7 +1,7 @@
 package com.study.service;
 
 import com.study.model.Role;
-import com.study.util.PageBean;
+import com.study.util.bean.PageBean;
 
 import java.util.List;
 

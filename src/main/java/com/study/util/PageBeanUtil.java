@@ -1,5 +1,7 @@
 package com.study.util;
 
+import com.study.util.bean.PageBean;
+
 
 public class PageBeanUtil {
     public static Boolean pageBeanIsNotEmpty(PageBean bean){

@@ -1,11 +1,15 @@
 package com.study.service;
 
+import java.util.List;
+import java.util.Map;
+
 import com.github.pagehelper.PageInfo;
 import com.study.model.User;
 import com.study.model.UserRole;
+import com.study.util.bean.PageBean;
 
 public interface UserService extends IService<User>{
-    PageInfo<User> selectByPage(User user, int start, int length);
+    public List<User> selectUserByDeptId(Map<String, Object> map,PageBean bean);
 
     User selectByUsername(String username);
 

@@ -13,6 +13,41 @@ public class Dept {
 
     @Column(name = "parent_Id")
     private Integer parentId;
+    
+    @Transient
+    private String parentName;
+    
+
+    public String getParentName() {
+      return parentName;
+    }
+
+    public void setParentName(String parentName) {
+      this.parentName = parentName;
+    }
+    @Transient
+    private String text;
+    
+    @Transient
+    private Integer pId;
+    
+
+    public Integer getpId() {
+      return getParentId();
+    }
+
+    public void setpId(Integer pId) {
+      this.pId = pId;
+    }
+
+    public String getText() {
+      return getName();
+    }
+
+
+    public void setText(String text) {
+      this.text = text;
+    }
 
     /**
      * @return id

@@ -4,9 +4,9 @@ import com.github.pagehelper.PageInfo;
 import com.study.model.Resources;
 import com.study.service.ResourcesService;
 import com.study.shiro.ShiroService;
-import com.study.util.DataGridResultInfo;
-import com.study.util.PageBean;
 import com.study.util.ResultUtil;
+import com.study.util.bean.DataGridResultInfo;
+import com.study.util.bean.PageBean;
 
 import org.apache.shiro.SecurityUtils;
 import org.springframework.cache.annotation.CacheEvict;

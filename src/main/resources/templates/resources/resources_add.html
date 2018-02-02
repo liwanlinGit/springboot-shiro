@@ -53,20 +53,22 @@
 		<hr>
 		<div style="text-align:center;">
             <a href="javascript:void(0)" class="easyui-linkbutton" onclick="submitForm()">保存</a>
-            <a href="javascript:void(0)" class="easyui-linkbutton" onclick="top.framework.closeTab('新增菜单')">关闭</a>
+            <a href="javascript:void(0)" class="easyui-linkbutton" th:onclick="|top.framework.closeTab('${menu.menuName}')|">关闭</a>
     	</div>
 	</div>
-	<script type="text/javascript">
+	<script th:inline="javascript">
+	var parentMenuName=[[${menu.parentMenuName}]]
+	var menuName=[[${menu.menuName}]]
 	function submitForm(){
         $('#myfm').form('submit',{
-            url: '../resources/add.html',
+            url: '/resources/add.html',
             onSubmit: function(){
                 return $(this).form('validate');
             },
             success: function(result){
                 if ("success"==result){
                 	Common.showMsg('提示',"添加成功");
-                	top.framework.closeAndReloadTab('新增菜单', '资源管理');
+                	top.framework.closeAndReloadTab(menuName, parentMenuName);
                 } else {
                 	Common.showMsg('提示',"添加失败");
                 }

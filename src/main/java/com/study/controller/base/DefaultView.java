@@ -1,4 +1,4 @@
-package com.study.controller.view;
+package com.study.controller.base;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.Ordered;

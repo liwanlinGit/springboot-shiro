@@ -50,7 +50,7 @@
 		            async:false,
 		            type : "GET",
 		            data:{rid:rid},
-		            url: "../resources/resourcesWithSelected",
+		            url: "/resources/resourcesWithSelected",
 		            dataType:'json',
 		            success: function(data){
 		                $.fn.zTree.init($("#tree"), setting, data);
@@ -74,7 +74,7 @@
 	            async:false,
 	            type : "GET",
 	            data:{roleid:rid,resourcesid:ids.join(",")},
-	            url: "../roles/saveRoleResources",
+	            url: "/roles/saveRoleResources",
 	            dataType:"text",
 	            success: function(data){
 	                if(data=="success"){

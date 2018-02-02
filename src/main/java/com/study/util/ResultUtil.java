@@ -2,6 +2,8 @@ package com.study.util;
 
 import java.util.List;
 
+import com.study.util.bean.DataGridResultInfo;
+
 /**
  * 系统结果工具类
  * 

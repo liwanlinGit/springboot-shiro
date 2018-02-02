@@ -6,5 +6,24 @@
     <result column="username" jdbcType="VARCHAR" property="username" />
     <result column="password" jdbcType="VARCHAR" property="password" />
     <result column="enable" jdbcType="INTEGER" property="enable" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="address" jdbcType="VARCHAR" property="address" />
+    <result column="phone" jdbcType="VARCHAR" property="phone" />
+    <result column="mark" jdbcType="VARCHAR" property="mark" />
+    <result column="dept_id" jdbcType="INTEGER" property="deptId" />
   </resultMap>
+  
+  <select id="selectUserByDeptId" parameterType="java.util.HashMap" resultType="com.study.model.User">
+     select * from (select u.name,u.username,u.enable,u.address,u.id,u.phone,u.mark,d.name as "deptName" 
+     from (SELECT * FROM dept WHERE FIND_IN_SET(id,fun_a_dept(#{deptId}))) d
+      inner join user u on u.dept_id=d.id)t where 1=1
+      <if test="username!=null and username!=''">
+         and username like CONCAT(CONCAT('%', #{username}), '%') 
+      </if> 
+      <if test="name!=null and name!=''">
+         and name like CONCAT(CONCAT('%', #{name}), '%') 
+      </if>
+  </select>
+  
+  
 </mapper>

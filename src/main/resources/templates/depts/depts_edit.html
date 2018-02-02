@@ -9,42 +9,28 @@
 	<div id="dlg" style="padding:10px 20px">
 	   <div class="myftitle">基本信息</div>
 	   <form id="myfm" method="post" novalidate>
-	       <input type="hidden" name="id" th:value="${resources.id}">
+	       <input type="hidden" name="id" th:value="${dept.id}"/>
 	   	   <table cellpadding="5">
                 <tr>
-                    <td>菜单名称:</td>
-                    <td><input class="easyui-validatebox" type="text" name="name" th:value="${resources.name}" data-options="required:true,validType:'length[3,32]'"></input></td>
+                    <td>部门编码:</td>
+                    <td><input class="easyui-validatebox" type="text" th:value="${dept.code}" name="code" data-options="required:true,validType:'length[3,32]'"></input></td>
                 </tr>
                 <tr>
-                    <td>资源链接:</td>
-                    <td><input class="easyui-validatebox" type="text" id="resUrl" name="resurl" th:value="${resources.resurl}" data-options="required:false" ></input></td>
+                    <td>部门名称:</td>
+                    <td><input class="easyui-validatebox" type="text" th:value="${dept.name}" name="name" data-options="required:true,validType:'length[3,32]'"></input></td>
                 </tr>
                 <tr>
-                    <td>父菜单名称:</td>
+                    <td>上级部门:</td>
                     <td>
-                        <select class="easyui-combobox" name="parentid" style="width: 148px;" >
-	           				  <option value="0"  th:selected="${#strings.contains(resources.parentid,0)}" >--请选择--</option>
-	           				  <span th:each="res : ${resourcesList}" th:remove="tag">
-		           				<option th:value="${res.id}" th:selected="${#strings.contains(resources.parentid,res.id)}"  th:text="${res.name}"></option>
+                        <select class="easyui-combobox" name="parentId" style="width: 148px;" >
+	           				  <option value="0" th:selected="${#strings.contains(dept.parentId,0)}">--请选择--</option>
+	           				  <span th:each="dt : ${depts}" th:remove="tag">
+		           				<option th:value="${dt.id}" th:text="${dt.name}"  th:selected="${#strings.contains(dept.parentId,dt.id)}"></option>
 	           				  </span>
 	           			</select>
 
                     </td>
                 </tr>
-                <tr>
-                    <td>资源类型:</td>
-                    <td>
-                        <select class="easyui-combobox" name="type" data-options="required:true,editable:false" disabled="disabled">
-	           				<option value="1" selected="selected">菜单</option>
-	           				<option value="2">按钮</option>
-	           			</select>
-                    </td>
-                </tr>
-                <tr>
-                    <td>序列号:</td>
-                    <td><input class="easyui-numberspinner" name="sort" value="10" data-options="min:10,increment:1, editable:false"></input></td>
-                </tr>
-                
             </table>
 	   </form>
     </div>
@@ -61,7 +47,7 @@
 	var menuName=[[${menu.menuName}]]
 	function submitForm(){
         $('#myfm').form('submit',{
-            url: '/resources/edit.html',
+            url: '/dept/edit.html',
             onSubmit: function(){
                 return $(this).form('validate');
             },

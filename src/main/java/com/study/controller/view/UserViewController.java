@@ -17,35 +17,44 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.study.model.Dept;
-import com.study.service.DeptService;
+import com.study.model.User;
+import com.study.service.UserService;
 import com.study.service.impl.DeptServiceImpl;
+import com.study.service.impl.UserServiceImpl;
 import com.study.util.bean.MenuBean;
 
-@Api(value="DeptViewController",description="部门页面展示")
+@Api(value="UserViewController",description="用户展示页面")
 @Controller
-public class DeptViewController {
-
+public class UserViewController {
   @Autowired
   private DeptServiceImpl deptService;
+  @Autowired
+  private UserService userService;
   
-  @ApiOperation(value="跳转添加、修改",notes="跳转添加、修改")
+  
+  
+  @ApiOperation(value="用户修改、添加页面",notes="用户修改、添加页面")
   @ApiImplicitParams({
-    @ApiImplicitParam(name="id",value="部门id",required=false,dataType="int",paramType="query"),
+    @ApiImplicitParam(name="id",value="用户id",required=false,dataType="int",paramType="query"),
+    @ApiImplicitParam(name="deptId",value="部门id",required=true,dataType="int",paramType="query"),
     @ApiImplicitParam(name="menuName",value="当前tab名称",required=false,dataType="string",paramType="query"),
     @ApiImplicitParam(name="parentMenuName",value="父页面tab名称",required=false,dataType="string",paramType="query")
   })
-  @RequestMapping(value="/dept/add",method={RequestMethod.GET})
-  public String add(HttpServletRequest request,@RequestParam(value="id",required=false) Integer id,@ModelAttribute MenuBean bean){
+  @RequestMapping(value="users/add",method={RequestMethod.GET})
+  public String add(HttpServletRequest request,@RequestParam(value="id",required=false) Integer id,@RequestParam(value="deptId",required=true)Integer deptId,@ModelAttribute MenuBean bean){
     List<Dept> selectAllDept = deptService.selectAllDept(null, null);
     request.setAttribute("depts", selectAllDept);
+    request.setAttribute("deptId", deptId);
     request.setAttribute("menu", bean);
     if(id!=null){
-      Dept dept = deptService.selectByKey(id);
-      request.setAttribute("dept", dept);
-      return "depts/depts_edit";
+      User user = userService.selectByKey(id);
+      request.setAttribute("user", user);
+      return "users/users_edit";
     }else{
-      return "depts/depts_add";
+      return "users/users_add";
     }
+    
   }
+  
   
 }

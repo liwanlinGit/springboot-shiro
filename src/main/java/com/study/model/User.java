@@ -19,6 +19,64 @@ public class User implements Serializable{
      * 是否启用
      */
     private Integer enable;
+    
+    private String name;
+    private String address;
+    private String mark;
+    private String phone;
+    @Column(name = "dept_id")
+    private Integer deptId;
+    
+    @Transient
+    private String deptName;
+
+    public String getDeptName() {
+      return deptName;
+    }
+
+    public void setDeptName(String deptName) {
+      this.deptName = deptName;
+    }
+
+    public String getName() {
+      return name;
+    }
+
+    public void setName(String name) {
+      this.name = name;
+    }
+
+    public String getAddress() {
+      return address;
+    }
+
+    public void setAddress(String address) {
+      this.address = address;
+    }
+
+    public String getMark() {
+      return mark;
+    }
+
+    public void setMark(String mark) {
+      this.mark = mark;
+    }
+
+    public String getPhone() {
+      return phone;
+    }
+
+    public void setPhone(String phone) {
+      this.phone = phone;
+    }
+
+    public Integer getDeptId() {
+      return deptId;
+    }
+
+    public void setDeptId(Integer deptId) {
+      this.deptId = deptId;
+    }
 
     /**
      * @return id

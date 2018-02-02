@@ -18,7 +18,7 @@ import com.github.pagehelper.PageInfo;
 import com.study.model.Role;
 import com.study.model.RoleResources;
 import com.study.service.RoleService;
-import com.study.util.PageBean;
+import com.study.util.bean.PageBean;
 
 import tk.mybatis.mapper.entity.Example;
 import tk.mybatis.mapper.entity.Example.Criteria;

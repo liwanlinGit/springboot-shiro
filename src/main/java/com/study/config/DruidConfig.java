@@ -14,11 +14,15 @@ import com.alibaba.druid.support.http.WebStatFilter;
 
 @Configuration
 public class DruidConfig {
-    @Bean 
+  /**
+   * sql 监控，必须得实例化一下
+   * @return
+   */
+    /*@Bean 
     @ConfigurationProperties(prefix="spring.datasource")
     public DataSource druidDataSource() {
         return new DruidDataSource();
-    }
+    }*/
     @Bean
     public ServletRegistrationBean druidServlet() {
 
