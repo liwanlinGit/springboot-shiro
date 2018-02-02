@@ -13,6 +13,17 @@ public class Role implements Serializable{
     private String roledesc;
     @Transient
     private Integer selected;
+    @Transient
+    private String roleIds;
+    
+    public String getRoleIds() {
+      return roleIds;
+    }
+
+    public void setRoleIds(String roleIds) {
+      this.roleIds = roleIds;
+    }
+
     /**
      * @return id
      */

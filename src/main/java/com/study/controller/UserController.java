@@ -12,11 +12,13 @@ import com.study.util.bean.PageBean;
 
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
@@ -28,6 +30,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+@Api(value="UserController",description="用户操作api")
 @RestController
 @RequestMapping("/users")
 public class UserController {
@@ -76,16 +79,24 @@ public class UserController {
     }
 
     @ApiOperation(value="添加保存",notes="添加保存")
+    @ApiImplicitParams({
+      @ApiImplicitParam(name="rolesId",value="角色id",required=false,dataType="string",paramType="body")
+    })
     @RequestMapping(value = "/add",method={RequestMethod.POST})
-    public String add(@ModelAttribute User user) {
+    public String add(@ModelAttribute User user, String rolesId) {
         User u = userService.selectByUsername(user.getUsername());
         if(u != null)
             return "error";
         try {
-            user.setEnable(1);
-            PasswordHelper passwordHelper = new PasswordHelper();
-            passwordHelper.encryptPassword(user);
+            /*user.setEnable(1);*/
+            PasswordHelper.encryptPassword(user);
             userService.save(user);
+            if(rolesId!=null){
+              UserRole userRole=new UserRole();
+              userRole.setRoleid(rolesId);
+              userRole.setUserid(user.getId());
+              userRoleService.addUserRole(userRole);
+            }
             return "success";
         } catch (Exception e) {
             e.printStackTrace();
@@ -93,10 +104,17 @@ public class UserController {
         }
     }
     @ApiOperation(value="修改保存",notes="修改保存")
+    @ApiImplicitParams({
+      @ApiImplicitParam(name="rolesId",value="角色id",required=false,dataType="string",paramType="body")
+    })
     @RequestMapping(value = "/edit",method={RequestMethod.POST})
-    public String edit(@ModelAttribute User user) {
+    public String edit(@ModelAttribute User user,String rolesId) {
         try {
             userService.updateNotNull(user);
+            UserRole userRole=new UserRole();
+            userRole.setRoleid(rolesId);
+            userRole.setUserid(user.getId());
+            userRoleService.addUserRole(userRole);
             return "success";
         } catch (Exception e) {
             e.printStackTrace();
@@ -124,4 +142,23 @@ public class UserController {
       }
     }
 
+    @ApiOperation(value="启用或停用用户",notes="启用或停用用户")
+    @ApiImplicitParams({
+      @ApiImplicitParam(name="id",value="用户id",required=true,dataType="int",paramType="query"),
+      @ApiImplicitParam(name="enable",value="启用、停用",required=true,dataType="int",paramType="query"),
+    })
+    @RequestMapping(value="enable",method={RequestMethod.GET})
+    public String enable(@RequestParam(value="id",required=true)Integer id,@RequestParam(value="enable",required=true)Integer enable){
+      try {
+        User entity=new User();
+        entity.setId(id);
+        entity.setEnable(enable);
+        userService.updateNotNull(entity);
+        return "success";
+      }catch (Exception e){
+        e.printStackTrace();
+        return "fail";
+    }
+      
+    }
 }

@@ -39,6 +39,37 @@
                     </td>
                 </tr>
                 <tr>
+                    <td>是否启用:</td>
+                    <td>
+                            <input type="radio" name="enable" value="1" th:checked="${#strings.contains(user.enable,1)}"  />启用
+                            <input type="radio" name="enable" value="0" th:checked="${#strings.contains(user.enable,0)}"/>不启用
+                    </td>
+                </tr>
+                <tr>
+                   <td>角色</td>
+                   <td>
+                     <input id="xsry" name="rolesId"   style="width: 150px;"  class="easyui-combobox" >  
+                   </td>
+                </tr>
+                <script th:inline="javascript">
+                $('#xsry').combobox({  
+                    url:'/roles/getUserData', //后台获取下拉框数据的url  
+                    method:'get',  
+                    panelHeight:200,//设置为固定高度，combobox出现竖直滚动条  
+                    valueField:'id',  
+                    textField:'roledesc',  
+                    multiple:true,  
+                    formatter: function (row) { //formatter方法就是实现了在每个下拉选项前面增加checkbox框的方法  
+                        var opts = $(this).combobox('options');  
+                        return  row[opts.textField]  
+                    }
+                }); 
+               $(function(){
+            		   var reoles=[[${roles?.roleIds}]]
+                	   $('#xsry').combobox('setValues',reoles.split(','))
+                })
+                </script>
+                <tr>
                     <td>备注:</td>
                     <td>
                       <textarea rows="6" cols="50" name="mark" th:text="${user.mark}"></textarea>

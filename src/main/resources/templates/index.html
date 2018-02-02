@@ -22,11 +22,11 @@
 			<img class="logo" th:src="@{/easy_ui/css/img/layout/logo.png}" alt="系统管理平台" />
 		</div>
 		<div class="l-topmenu-r">
-			<span>您好, <a href="javascript:void(0);"></a>!
+			<span>您好, <a href="javascript:void(0);" th:text="${userName}"></a>!
 			</span>| <a href="javascript:void(0);">设置</a>|
 			<a href="javascript:void(0);">密码修改</a>|
 			<a href="javascript:void(0);" onclick="Common.switchTheme()"
-				class="l-skin">皮肤</a>| <a href="../loginOut.do" class="l-exit">注销</a>
+				class="l-skin">皮肤</a>| <a href="/loginOut.do" class="l-exit">注销</a>
 		</div>
 	</div>
 	<div data-options="region:'west',split:true"    title="导航菜单"
@@ -39,7 +39,7 @@
 		          <span th:if="${res.id==reschil.parentid}" th:remove="tag">
 		             <ul class="menu-ul">
 					<li class="menu-ul-li"><a class="menu-ul-li-a"
-						th:href="|javascript:addTab('${reschil.name}','${reschil.resurl}/${reschil.name}')|"><span th:text="${reschil.name}"></span></a></li>
+						th:href="|javascript:addTab('${reschil.name}','${reschil.resurl}/${reschil.name}/${reschil.id}')|"><span th:text="${reschil.name}"></span></a></li>
 					</ul>
 		          </span>
 		      </span>
@@ -57,7 +57,7 @@
 		<div class="easyui-tabs" border="false" id="tabs" fit="true">
 			<div title="首页">
 				<iframe frameborder="0" name="mainFrame" id="mainFrame"
-					src="../403" scrolling="no"
+					src="/403" scrolling="no"
 					style="width: 1070px; height: 470px;"></iframe>
 			</div>
 		</div>

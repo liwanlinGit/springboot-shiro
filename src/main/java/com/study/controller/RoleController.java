@@ -44,8 +44,8 @@ public class RoleController {
     @ApiOperation(value="获取角色",notes="获取角色")
     @ApiImplicitParams({
       @ApiImplicitParam(name="roledesc",value="角色名称",required=false,dataType="string",paramType="query"),
-      @ApiImplicitParam(name="page",value="当前页码",required=true,dataType="int",paramType="query"),
-      @ApiImplicitParam(name="rows",value="一页多少条",required=true,dataType="int",paramType="query")
+      @ApiImplicitParam(name="page",value="当前页码",required=false,dataType="int",paramType="query"),
+      @ApiImplicitParam(name="rows",value="一页多少条",required=false,dataType="int",paramType="query")
     })
     @RequestMapping(value="/getData",method={RequestMethod.GET})
     public DataGridResultInfo getData(HttpServletRequest request, HttpServletResponse response,@ModelAttribute PageBean page,@ModelAttribute Role role){
@@ -54,10 +54,6 @@ public class RoleController {
       return ResultUtil.createDataGridResult(pageInfo.getTotal(), pageInfo.getList());
     }
 
-    @RequestMapping("/rolesWithSelected")
-    public List<Role> rolesWithSelected(Integer uid){
-        return roleService.queryRoleListWithSelected(uid);
-    }
 
     //分配角色
     @ApiOperation(value="保存权限",notes="保存角色对应的权限")
@@ -116,5 +112,10 @@ public class RoleController {
         }
     }
 
-
+    @ApiOperation(value="获取所有角色",notes="获取所有角色")
+    @RequestMapping(value="/getUserData",method={RequestMethod.GET})
+    public List<Role> getUserData(HttpServletRequest request, HttpServletResponse response){
+      List<Role> selectByPage = roleService.selectByPage(null, null);
+      return selectByPage;
+    }
 }

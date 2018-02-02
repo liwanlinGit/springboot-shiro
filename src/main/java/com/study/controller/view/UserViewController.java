@@ -2,6 +2,7 @@ package com.study.controller.view;
 
 import java.util.List;
 
+import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 
 import io.swagger.annotations.Api;
@@ -16,8 +17,16 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import tk.mybatis.mapper.entity.Example;
+import tk.mybatis.mapper.entity.Example.Criteria;
+
 import com.study.model.Dept;
+import com.study.model.Role;
+import com.study.model.RoleResources;
 import com.study.model.User;
+import com.study.model.UserRole;
+import com.study.service.RoleResourcesService;
+import com.study.service.RoleService;
 import com.study.service.UserService;
 import com.study.service.impl.DeptServiceImpl;
 import com.study.service.impl.UserServiceImpl;
@@ -30,6 +39,8 @@ public class UserViewController {
   private DeptServiceImpl deptService;
   @Autowired
   private UserService userService;
+  @Resource
+  private RoleService roleService;
   
   
   
@@ -48,7 +59,9 @@ public class UserViewController {
     request.setAttribute("menu", bean);
     if(id!=null){
       User user = userService.selectByKey(id);
+      Role role = roleService.queryRoleListWithSelected(id);
       request.setAttribute("user", user);
+      request.setAttribute("roles", role);
       return "users/users_edit";
     }else{
       return "users/users_add";

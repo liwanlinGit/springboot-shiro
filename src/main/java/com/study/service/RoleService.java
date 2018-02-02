@@ -7,7 +7,7 @@ import java.util.List;
 
 public interface RoleService extends IService<Role> {
 
-    public List<Role> queryRoleListWithSelected(Integer uid);
+    public Role queryRoleListWithSelected(Integer uid);
 
     List<Role> selectByPage(Role role,PageBean bean);
 

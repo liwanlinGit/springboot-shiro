@@ -28,7 +28,6 @@ public class RoleResourcesServiceImpl extends BaseService<RoleResources> impleme
     @Override
     //更新权限
     @Transactional(propagation= Propagation.REQUIRED,readOnly=false,rollbackFor={Exception.class})
-    //@CacheEvict(cacheNames="resources", allEntries=true)
     public void addRoleResources(RoleResources roleResources) {
         //删除
         Example example = new Example(RoleResources.class);

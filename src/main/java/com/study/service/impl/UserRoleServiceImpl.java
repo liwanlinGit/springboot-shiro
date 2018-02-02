@@ -25,14 +25,17 @@ public class UserRoleServiceImpl extends BaseService<UserRole> implements UserRo
         Example.Criteria criteria = example.createCriteria();
         criteria.andEqualTo("userid",userRole.getUserid());
         mapper.deleteByExample(example);
-        //添加
-        String[] roleids = userRole.getRoleid().split(",");
-        for (String roleId : roleids) {
-            UserRole u = new UserRole();
-            u.setUserid(userRole.getUserid());
-            u.setRoleid(roleId);
-            mapper.insert(u);
+      //添加
+        if(userRole.getRoleid()!=null){
+          String[] roleids = userRole.getRoleid().split(",");
+          for (String roleId : roleids) {
+              UserRole u = new UserRole();
+              u.setUserid(userRole.getUserid());
+              u.setRoleid(roleId);
+              mapper.insert(u);
+          }
         }
+        
         //更新当前登录的用户的权限缓存
         List<Integer> userid = new ArrayList<Integer>();
         userid.add(userRole.getUserid());

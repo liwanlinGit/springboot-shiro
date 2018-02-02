@@ -18,6 +18,7 @@ import com.github.pagehelper.PageInfo;
 import com.study.model.Role;
 import com.study.model.RoleResources;
 import com.study.service.RoleService;
+import com.study.util.PageBeanUtil;
 import com.study.util.bean.PageBean;
 
 import tk.mybatis.mapper.entity.Example;
@@ -33,19 +34,21 @@ public class RoleServiceImpl extends BaseService<Role> implements RoleService{
     private RoleResourcesMapper roleResourcesMapper;
 
     @Override
-    public List<Role> queryRoleListWithSelected(Integer uid) {
+    public Role queryRoleListWithSelected(Integer uid) {
         return roleMapper.queryRoleListWithSelected(uid);
     }
 
     @Override
     public List<Role> selectByPage(Role role, PageBean bean) {
         Example example = new Example(Role.class);
-        if(role.getRoledesc()!=null&&!"".equals(role.getRoledesc().trim())){
+        if(role!=null&&role.getRoledesc()!=null&&!"".equals(role.getRoledesc().trim())){
           Criteria createCriteria = example.createCriteria();
           createCriteria.andLike("roledesc", "%"+role.getRoledesc()+"%");
         }
+        if(PageBeanUtil.pageBeanIsNotEmpty(bean)){
         //分页查询
-        PageHelper.startPage(bean.getPage(), bean.getRows());
+          PageHelper.startPage(bean.getPage(), bean.getRows());
+        }
         List<Role> rolesList = selectByExample(example);
         return rolesList;
     }

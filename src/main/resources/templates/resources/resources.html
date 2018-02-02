@@ -26,9 +26,10 @@
    	</table>
     <div id="toolbar1" class="easyui-layout" style="height:65px;margin:3px;">
         <div data-options="region:'center',border:false">
-            <a href="javascript:add();" shiro:hasPermission="/resources/add" class="easyui-linkbutton" iconCls="icon-add-new" plain="true">新增</a>
+            <a th:each="but : ${buttons}" th:shiro:hasPermission="${but.resurl}" class="easyui-linkbutton" iconCls="icon-add-new" plain="true" th:text="${but.name}"></a>
+            <!-- <a href="javascript:add();" shiro:hasPermission="/resources/add" class="easyui-linkbutton" iconCls="icon-add-new" plain="true">新增</a>
             <a href="javascript:edit();" shiro:hasPermission="/resources/edit" class="easyui-linkbutton" iconCls="icon-edit-new" plain="true">修改</a>
-            <a href="javascript:remove();" shiro:hasPermission="/resources/delete" class="easyui-linkbutton" iconCls="icon-remove-new" plain="true">删除</a>
+            <a href="javascript:remove();" shiro:hasPermission="/resources/delete" class="easyui-linkbutton" iconCls="icon-remove-new" plain="true">删除</a> -->
         </div>
         <div data-options="region:'north',border:true" style="height:40px;">
             <form id="fm" method="get" novalidate>

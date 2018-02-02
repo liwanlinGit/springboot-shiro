@@ -35,12 +35,11 @@
    	</table>
     <div id="toolbar1" class="easyui-layout" style="height:70px;margin:3px;">
         <div data-options="region:'center',border:false">
-            <a href="javascript:view();" class="easyui-linkbutton" iconCls="icon-view-new" plain="true">查看</a>
-            <a href="javascript:add();" class="easyui-linkbutton" iconCls="icon-add-new" plain="true">新增</a>
-            <a href="javascript:edit();" class="easyui-linkbutton" iconCls="icon-edit-new" plain="true">修改</a>
-            <a href="javascript:remove();" class="easyui-linkbutton" iconCls="icon-remove-new" plain="true">删除</a>
-            <a href="javascript:on();" class="easyui-linkbutton" iconCls="icon-on-new" plain="true">启用</a>
-            <a href="javascript:off();" class="easyui-linkbutton" iconCls="icon-off-new" plain="true">停用</a>
+            <a href="javascript:add();"  shiro:hasPermission="/users/add" class="easyui-linkbutton" iconCls="icon-add-new" plain="true">新增</a>
+            <a href="javascript:edit();" shiro:hasPermission="/users/edit" class="easyui-linkbutton" iconCls="icon-edit-new" plain="true">修改</a>
+            <a href="javascript:remove();" shiro:hasPermission="/users/delete" class="easyui-linkbutton" iconCls="icon-remove-new" plain="true">删除</a>
+            <a href="javascript:on();"  shiro:hasPermission="/users/on" class="easyui-linkbutton" iconCls="icon-on-new" plain="true">启用</a>
+            <a href="javascript:off();" shiro:hasPermission="/users/off" class="easyui-linkbutton" iconCls="icon-off-new" plain="true">停用</a>
         </div>
         <div data-options="region:'north',border:true" style="height:40px;">
             <form id="fm" method="post" novalidate>
@@ -66,6 +65,38 @@
 	<script th:inline="javascript">
 	var menuName=[[${menuName}]]
 	var menuId=1;
+	function on(){
+		enable(1);
+	}
+	function off(){
+		enable(0);
+	}
+	function enable(types){
+		var selecteds = $('#tb1').datagrid('getSelections');
+        if (selecteds == null || selecteds.length == 0) { 
+        	Common.showMsg('请选择操作项！');
+        	return;
+        }
+        if (selecteds.length>1) {
+        	Common.showMsg('不支持多个操作！');
+        	return; 
+        }
+		$.ajax( {
+			url : '/users/enable.do?id='+selecteds[0].id+'&enable='+types,
+			dataType:'text',
+			type: 'get',
+			success : function(result) {
+				if ("success"==result){
+					Common.showMsg('提示',"操作成功");
+				    search();
+				}else{
+					Common.showMsg('提示',"操作失败");
+				}
+				
+			}
+		});
+	}
+	
 	$(function(){
 		$("#jsontree").tree({
             url: '/dept/getDataTree.do',
