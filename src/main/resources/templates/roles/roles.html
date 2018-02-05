@@ -14,16 +14,14 @@
             	<th data-options="field:'roledesc',width:200,align:'center',sortable:'true'">角色名称</th>
             	<th shiro:hasPermission="/roles/saveRoleResources" data-options="field:'check',width:200,align:'center',sortable:'true',
             	           formatter:function(value,row){
-            							if (!value) return '<img onclick=mngRol(this) src=/easy_ui/js/jquery-easyui/themes/icons/pencil.png />'
+            							if (!value) return '<img onclick=saveRoleResources(this) src=/easy_ui/js/jquery-easyui/themes/icons/pencil.png />'
 	                		  }">设置权限</th>
             </tr>
         </thead>
    	</table>
     <div id="toolbar1" class="easyui-layout" style="height:65px;margin:3px;">
         <div data-options="region:'center',border:false">
-            <a href="javascript:add();" shiro:hasPermission="/roles/add" class="easyui-linkbutton" iconCls="icon-add-new" plain="true">新增</a>
-            <a href="javascript:edit();" shiro:hasPermission="/roles/edit" class="easyui-linkbutton" iconCls="icon-edit-new" plain="true">修改</a>
-            <a href="javascript:remove();" shiro:hasPermission="/roles/delete" class="easyui-linkbutton" iconCls="icon-remove-new" plain="true">删除</a>
+          <a th:each="but : ${buttons}" th:shiro:hasPermission="${but.resurl}" th: class="easyui-linkbutton" th:icon="${but.iconCls}" plain="true" th:href="|javascript:${but.butFun};|" th:text="${but.name}" th:if="${not #strings.contains(but.id,13)}"></a>
         </div>
         <div data-options="region:'north',border:true" style="height:40px;">
             <form id="fm" method="post" novalidate>
@@ -40,7 +38,7 @@
     </div>
     <script th:inline="javascript">
     var menuName=[[${menuName}]]
-    function mngRol(obj){
+    function saveRoleResources(obj){
     	var id=$(obj).parent().parent().prev().prev().text();
     	showMessageDialog('/roles/resource_tree?rid='+id,'分配权限',290,410,null);
     }

@@ -46,7 +46,6 @@ public class ResourcesServiceImpl extends BaseService<Resources> implements Reso
 
     @Override
     public List<Resources> queryByType(Resources resources,PageBean pageBean) {
-      System.out.println(StringUtils.isEmpty(pageBean));
       if(PageBeanUtil.pageBeanIsNotEmpty(pageBean)){
         PageHelper.startPage(pageBean.getPage(), pageBean.getRows());
       }

@@ -8,6 +8,8 @@
     <result column="type" jdbcType="INTEGER" property="type" />
     <result column="parentId" jdbcType="INTEGER" property="parentid" />
     <result column="sort" jdbcType="INTEGER" property="sort" />
+    <result column="iconCls" jdbcType="VARCHAR" property="iconCls" />
+    <result column="but_fun" jdbcType="VARCHAR" property="butFun" />
   </resultMap>
 
   <select id="queryAll" resultType="com.study.model.Resources">
@@ -41,13 +43,16 @@
     </select>
     <select id="queryByType" resultType="com.study.model.Resources" parameterType="com.study.model.Resources">
       	select t.* from(
-          SELECT r1.id,r1.name,r1.parentId,r1.resUrl,r1.type,r1.sort,r2.name as "parentName"
+          SELECT r1.id,r1.name,r1.parentId,r1.resUrl,r1.type,r1.sort,r2.name as "parentName",r1.iconCls,r1.but_fun as "butFun"
 		FROM resources  r1 left join resources r2 on r1.parentId=r2.id) t where 1=1
 		<if test="type!=null">
 		AND type= #{type}
 		</if>
 		<if test="name!=null and name!=''">
 		 and  name like CONCAT(CONCAT('%', #{name}), '%') 
+		</if>
+		<if test="parentid!=null and parentid!=''">
+		 and  parentid like CONCAT(CONCAT('%', #{parentid}), '%') 
 		</if>
 		order by sort
   </select>

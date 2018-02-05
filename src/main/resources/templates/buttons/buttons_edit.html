@@ -9,23 +9,30 @@
 	<div id="dlg" style="padding:10px 20px">
 	   <div class="myftitle">基本信息</div>
 	   <form id="myfm" method="post" novalidate>
-	       <input type="hidden" name="id" th:value="${resources.id}">
+	   <input type="hidden" name="id" th:value="${res.id}">
 	   	   <table cellpadding="5">
                 <tr>
-                    <td>菜单名称:</td>
-                    <td><input class="easyui-validatebox" type="text" name="name" th:value="${resources.name}" data-options="required:true,validType:'length[3,32]'"></input></td>
+                    <td>按钮名称:</td>
+                    <td><input class="easyui-validatebox" type="text" name="name" th:value="${res.name}" data-options="required:true,validType:'length[3,32]'"></input></td>
                 </tr>
                 <tr>
                     <td>资源链接:</td>
-                    <td><input class="easyui-validatebox" type="text" id="resUrl" name="resurl" th:value="${resources.resurl}" data-options="required:false" ></input></td>
+                    <td><input class="easyui-validatebox" type="text" id="resUrl" name="resurl" th:value="${res.resurl}" data-options="required:false" ></input></td>
                 </tr>
                 <tr>
-                    <td>父菜单名称:</td>
+                    <td>按钮图标:</td>
+                    <td><input class="easyui-validatebox" type="text" id="iconCls" name="iconCls" th:value="${res.iconCls}" data-options="required:false" ></input></td>
+                </tr>
+                <tr>
+                    <td>按钮函数:</td>
+                    <td><input class="easyui-validatebox" type="text" id="butFun" name="butFun" th:value="${res.butFun}" data-options="required:false" ></input></td>
+                </tr>
+                <tr>
+                    <td>菜单名称:</td>
                     <td>
-                        <select class="easyui-combobox" name="parentid" style="width: 148px;" >
-	           				  <option value="0"  th:selected="${#strings.contains(resources.parentid,0)}" >--请选择--</option>
-	           				  <span th:each="res : ${resourcesList}" th:remove="tag">
-		           				<option th:value="${res.id}" th:selected="${#strings.contains(resources.parentid,res.id)}"  th:text="${res.name}"></option>
+                        <select class="easyui-combobox" name="parentid" disabled="disabled" style="width: 148px;" >
+	           				  <span th:each="resL : ${resList}" th:remove="tag">
+		           				<option th:value="${resL.id}" th:text="${resL.name}" th:selected="${#strings.contains(resL.id,res.parentid)}"></option>
 	           				  </span>
 	           			</select>
 
@@ -35,14 +42,14 @@
                     <td>资源类型:</td>
                     <td>
                         <select class="easyui-combobox" name="type" data-options="required:true,editable:false" disabled="disabled">
-	           				<option value="1" selected="selected">菜单</option>
-	           				<option value="2">按钮</option>
+	           				<option value="1" >菜单</option>
+	           				<option value="2" selected="selected">按钮</option>
 	           			</select>
                     </td>
                 </tr>
                 <tr>
                     <td>序列号:</td>
-                    <td><input class="easyui-numberspinner" name="sort"  th:value="${resources.sort}" data-options="min:10,increment:1, editable:false"></input></td>
+                    <td><input class="easyui-numberspinner" name="sort"  th:value="${res.sort}" data-options="min:1,increment:1, editable:false"></input></td>
                 </tr>
                 
             </table>

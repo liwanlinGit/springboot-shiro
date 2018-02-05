@@ -112,16 +112,28 @@ public class ResourcesController {
     @ApiOperation(value="菜单展示", notes="获取所有的菜单API")
     @ApiImplicitParams({
       @ApiImplicitParam(name = "name", value = "菜单名称", required = false ,dataType = "string" ,paramType = "query"),
+      @ApiImplicitParam(name = "type", value = "菜单类别，1菜单，2按钮", required = true ,dataType = "int" ,paramType = "query"),
       @ApiImplicitParam(name = "page", value = "当前页码", required = true,dataType = "int" ,paramType = "query"),
-      @ApiImplicitParam(name = "rows", value = "一页显示数", required = true,dataType = "int",paramType = "query" )
+      @ApiImplicitParam(name = "rows", value = "一页显示数", required = true,dataType = "int",paramType = "query" ),
+      @ApiImplicitParam(name = "parentid", value = "父节点id", required = false,dataType = "int",paramType = "query" )
     })
     @RequestMapping(value = "/getMenu",method = {RequestMethod.GET})
-    public  DataGridResultInfo getMenu(HttpServletRequest request, HttpServletResponse response,@ModelAttribute PageBean page, @RequestParam(value="name",required = false) String name){
+    public  DataGridResultInfo getMenu(HttpServletRequest request, HttpServletResponse response,@ModelAttribute PageBean page, @RequestParam(value="name",required = false) String name,@RequestParam(value="type",required = true)Integer type,@RequestParam(value="parentid",required = false)Integer parentid){
       Resources example=new Resources();
-      example.setType(1);
+      example.setType(type);
       example.setName(name);
+      example.setParentid(parentid);
       List<Resources> queryByType = resourcesService.queryByType(example,page);
       PageInfo<Resources> pageInfo=new PageInfo<Resources>(queryByType);
       return ResultUtil.createDataGridResult(pageInfo.getTotal(), pageInfo.getList());
+    }
+    
+    @ApiOperation(value="获取多有菜单",notes="获取所有菜单，返回list")
+    @RequestMapping(value = "/getDataTree",method = {RequestMethod.GET})
+    public  List<Resources> getData(HttpServletRequest request, HttpServletResponse response){
+      Resources example=new Resources();
+      example.setType(1);
+      List<Resources> queryByType = resourcesService.queryByType(example,null);
+      return queryByType;
     }
 }

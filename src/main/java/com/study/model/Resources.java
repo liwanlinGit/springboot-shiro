@@ -44,7 +44,32 @@ public class Resources implements Serializable{
      */
     @Transient
     private String parentName;
+    @Column(name = "iconCls")
+    private String iconCls;
     
+    @Column(name = "but_fun")
+    private String butFun;
+    
+    
+    
+    
+    public String getIconCls() {
+      return iconCls;
+    }
+
+    public void setIconCls(String iconCls) {
+      this.iconCls = iconCls;
+    }
+
+
+    public String getButFun() {
+      return butFun;
+    }
+
+    public void setButFun(String butFun) {
+      this.butFun = butFun;
+    }
+
     public String getParentName() {
       return parentName;
     }
