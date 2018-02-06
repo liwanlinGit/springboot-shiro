@@ -20,7 +20,6 @@ target/
 *.name
 *.class
 /bin/
-pom.xml
 
 # ............
 .metadata
