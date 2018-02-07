@@ -51,9 +51,4 @@ public class ResourcesViewController  {
       return "resources/resources_add";
     }
   }
-  /*@ApiOperation(value="跳转菜单列表页",notes="跳转菜单列表页")
-  @RequestMapping(value="/resourcesPage",method={RequestMethod.GET})
-  public String resourcesPage() {
-      return "resources/resources";
-  }*/
 }

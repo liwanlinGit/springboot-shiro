@@ -44,8 +44,8 @@ public class RoleController {
     @ApiOperation(value="获取角色",notes="获取角色")
     @ApiImplicitParams({
       @ApiImplicitParam(name="roledesc",value="角色名称",required=false,dataType="string",paramType="query"),
-      @ApiImplicitParam(name="page",value="当前页码",required=false,dataType="int",paramType="query"),
-      @ApiImplicitParam(name="rows",value="一页多少条",required=false,dataType="int",paramType="query")
+      @ApiImplicitParam(name="page",value="当前页码",required=true,dataType="int",paramType="query"),
+      @ApiImplicitParam(name="rows",value="一页多少条",required=true,dataType="int",paramType="query")
     })
     @RequestMapping(value="/getData",method={RequestMethod.GET})
     public DataGridResultInfo getData(HttpServletRequest request, HttpServletResponse response,@ModelAttribute PageBean page,@ModelAttribute Role role){

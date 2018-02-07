@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.study.mapper.DictionarydataMapper">
+  <resultMap id="BaseResultMap" type="com.study.model.Dictionarydata">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="dictdata_name" jdbcType="VARCHAR" property="dictdataName" />
+    <result column="dictdata_code" jdbcType="VARCHAR" property="dictdataCode" />
+    <result column="dictdata_mark" jdbcType="VARCHAR" property="dictdataMark" />
+    <result column="dict_id" jdbcType="INTEGER" property="dictId" />
+    <result column="parent_id" jdbcType="INTEGER" property="parentId" />
+  </resultMap>
+  
+  <select id="selectDictdataByParentId" parameterType="java.util.Map" resultType="com.study.model.Dictionarydata">
+     select * from (select d1.dict_name as "parentName",d2.dictdata_name as "dictdataName",d2.dictdata_code as "dictdataCode",
+     d2.dictdata_mark as "dictdataMark",d2.id,d2.dict_id as "dictId", d2.parent_id as "parentId" ,d3.dictdata_name as "parentdataName"
+     from dictionary d1 inner join dictionarydata d2 on d1.id=d2.dict_id left join dictionarydata d3 on d3.id=d2.parent_id) t where 1=1
+     <if test="dictId!=null and dictId!=''">
+      and dictId=#{dictId}
+     </if>
+     <if test="dictdataName!=null and dictdataName!=''">
+      and dictdata_name like CONCAT(CONCAT('%', #{dictdataName}), '%') 
+     </if>
+  </select>
+  
+</mapper>

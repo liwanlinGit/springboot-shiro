@@ -9,49 +9,44 @@
 	<div id="dlg" style="padding:10px 20px">
 	   <div class="myftitle">基本信息</div>
 	   <form id="myfm" method="post" novalidate>
-	   
+	       <input type="hidden" name="id" th:value="${dictdata.id}"/>
 	   	   <table cellpadding="5">
-                <tr>
-                    <td>按钮名称:</td>
-                    <td><input class="easyui-validatebox" type="text" name="name" data-options="required:true,validType:'length[3,32]'"></input></td>
+	   	         <tr>
+                    <td>编码:</td>
+                    <td><input class="easyui-validatebox" type="text" name="dictdataCode" th:value="${dictdata.dictdataCode}" data-options="required:true,validType:'length[2,32]'"></input></td>
                 </tr>
                 <tr>
-                    <td>资源链接:</td>
-                    <td><input class="easyui-validatebox" type="text" id="resUrl" name="resurl" data-options="required:false" ></input></td>
+                    <td>名称:</td>
+                    <td><input class="easyui-validatebox" type="text" name="dictdataName" th:value="${dictdata.dictdataName}" data-options="required:true,validType:'length[2,32]'"></input></td>
                 </tr>
-                <tr>
-                    <td>按钮图标:</td>
-                    <td><input class="easyui-validatebox" type="text" id="iconCls" name="iconCls" data-options="required:false" ></input></td>
-                </tr>
-                <tr>
-                    <td>按钮函数:</td>
-                    <td><input class="easyui-validatebox" type="text" id="butFun" name="butFun" data-options="required:false" ></input></td>
-                </tr>
-                <tr>
-                    <td>菜单名称:</td>
+                <tr  >
+                    <td>上级单位:</td>
                     <td>
-                        <select class="easyui-combobox" name="parentid" disabled="disabled" style="width: 148px;" >
-	           				  <span th:each="res : ${resList}" th:remove="tag">
-		           				<option th:value="${res.id}" th:text="${res.name}" th:selected=${#strings.contains(res.id,parentid)}></option>
+                         <select class="easyui-combobox" name="parentId" style="width: 148px;" >
+	           				  <span th:each="dic : ${dictds}" th:remove="tag">
+		           				<option th:value="${dic.id}" th:text="${dic.dictdataName}" th:selected="${#strings.contains(dic.id,dictdata.parentId)}" ></option>
 	           				  </span>
 	           			</select>
 
                     </td>
                 </tr>
                 <tr>
-                    <td>资源类型:</td>
+                    <td>类别:</td>
                     <td>
-                        <select class="easyui-combobox" name="type" data-options="required:true,editable:false" disabled="disabled">
-	           				<option value="1" >菜单</option>
-	           				<option value="2" selected="selected">按钮</option>
+                         <select class="easyui-combobox" name="dictId" disabled="disabled"  style="width: 148px;" >
+	           				  <span th:each="dic : ${dicts}" th:remove="tag">
+		           				<option th:value="${dic.id}" th:text="${dic.dictName}" th:selected="${#strings.contains(dictdata.dictId,dic.id)}"></option>
+	           				  </span>
 	           			</select>
+
                     </td>
                 </tr>
                 <tr>
-                    <td>序列号:</td>
-                    <td><input class="easyui-numberspinner" name="sort" value="10" data-options="min:1,increment:1, editable:false"></input></td>
+                    <td>备注:</td>
+                    <td>
+                      <textarea rows="6" cols="50" name="dictdataMark" th:text="${dictdata.dictdataMark}"></textarea>
+                    </td>
                 </tr>
-                
             </table>
 	   </form>
     </div>
@@ -68,7 +63,7 @@
 	var menuName=[[${menu.menuName}]]
 	function submitForm(){
         $('#myfm').form('submit',{
-            url: '/resources/add.html',
+            url: '/dictdata/edit.html',
             onSubmit: function(){
                 return $(this).form('validate');
             },

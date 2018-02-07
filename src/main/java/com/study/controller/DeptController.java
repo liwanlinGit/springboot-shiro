@@ -44,9 +44,6 @@ public class DeptController {
   @RequestMapping(value="/getDataTree",method={RequestMethod.GET})
   public List<Dept> getDataTree(HttpServletRequest request,@ModelAttribute PageBean bean,@ModelAttribute Dept dept){
     List<Dept> selectAllDept = deptService.selectAllDept(dept, bean);
-    for (Dept dept2 : selectAllDept) {
-      
-    }
     return selectAllDept;
   }
   

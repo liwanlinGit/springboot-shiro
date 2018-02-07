@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<head th:include="common/head :: header">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    
+</head>
+<body class="easyui-layout">
+	<div data-options="region:'west',split:true" title="字典类别" style="width:160px;overflow: hidden;" >
+		<ul id="jsontree" class="easyui-tree" />
+	</div>
+	<div data-options="region:'center'" style="background: #eee;" >
+	<table id="tb1" class="easyui-datagrid" title="" width="100%" height="100%" fit="true" border="0"
+           data-options="rownumbers:true,pagination:true,url:'',singleSelect:false,method:'get',toolbar:'#toolbar1',sortName:'sequence',sortOrder:'asc'">
+        <thead>
+            <tr>
+            	<th data-options="field:'ck',checkbox:true"></th>
+            	<th data-options="field:'id',hidden:true">id</th>
+            	<th data-options="field:'dictdataCode',width:150,align:'center',sortable:'true'">编码</th>
+            	<th data-options="field:'dictdataName',width:100,align:'left',sortable:'true'">名称</th>
+            	<th data-options="field:'parentName',width:150,align:'center',sortable:'true'">类别</th>
+            	<th data-options="field:'parentdataName',width:200,align:'center',sortable:'true'">上级单位</th>
+            	<th data-options="field:'dictdataMark',width:200,align:'center',sortable:'true'">备注</th>
+            </tr>
+        </thead>
+   	</table>
+    <div id="toolbar1" class="easyui-layout" style="height:70px;margin:3px;">
+        <div data-options="region:'center',border:false">
+        <a th:each="but : ${buttons}" th:shiro:hasPermission="${but.resurl}" th: class="easyui-linkbutton" th:icon="${but.iconCls}" plain="true" th:href="|javascript:${but.butFun};|" th:text="${but.name}"></a>
+        </div>
+        <div data-options="region:'north',border:true" style="height:40px;">
+            <form id="fm" method="post" novalidate>
+            <table cellpadding="5">
+              <tr>
+                   <td>登录名:</td>
+                   <td><input class="easyui-validatebox textbox" type="text" name="name" id="name"></input></td>
+                   <td>&nbsp;&nbsp;</td>
+                   <td><a href="javascript:search()" class="easyui-linkbutton" iconCls="icon-search">查找</a></td>
+               </tr>
+           </table>
+           </form>
+        </div>
+    </div>
+    </div>
+	<script th:inline="javascript">
+	var menuName=[[${menuName}]]
+	var menuId=1;
+	$(function(){
+		$("#jsontree").tree({
+            url: '/dict/getDataTree.do',
+            method: 'get',
+            parentField:"pId",
+            textFiled:"dictName",
+            idFiled:"id",
+            onLoadSuccess: function (node, data) {
+            	var node = $('#jsontree').tree('getRoot');
+                if (node != undefined && node != null){
+                	$('#jsontree').tree('select', node.target);
+                	var children = node.children;
+                	  if (children == null){
+                		 $('#jsontree').tree('select', node.target);
+                	 }else{
+                		 var children = $('#jsontree').tree('getChildren',node.target);
+                    	 if (children != null){
+                    		 var child = children[0];
+                    		 $('#jsontree').tree('select', child.target);
+                    	 } 
+                	 } 
+                }
+            },
+            onSelect: function (node) {
+            		menuId=node.id;
+            		search();
+            }
+        });
+	})
+	function add(){
+		top.framework.openTab('新增数据', '/dictdata/add?menuName=新增数据&parentMenuName='+menuName+'&dictId='+menuId);
+	}
+	function edit(){
+		var selecteds = $('#tb1').datagrid('getSelections');
+        if (selecteds == null || selecteds.length == 0) { 
+        	Common.showMsg('修改数据','请选择操作项！');
+        	return;
+        }
+        if (selecteds.length>1) {
+        	Common.showMsg('修改数据','不支持多个操作！');
+        	return; 
+        }
+		top.framework.openTab('修改数据', '/dictdata/add.do?menuName=修改数据&parentMenuName='+menuName+'&id='+selecteds[0].id+'&dictId='+menuId);
+	}
+	 function remove(){
+			var selecteds = $('#tb1').datagrid('getSelections');
+	        if (selecteds == null || selecteds.length == 0) { 
+	        	Common.showMsg('提示','请选择操作项！');
+	        	return;
+	        }
+	        $.messager.confirm('提示','确定删除吗?', 
+	        function(r){
+	            if (r){
+	            	var ids = '';
+	                $(selecteds).each(function (index) {
+	                    ids = ids + selecteds[index].id + ",";
+	                });
+	                ids = ids.substring(0, ids.length - 1);
+	        		$.ajax( {
+	    				url : '/dictdata/delete.do?ids='+ids,
+	    				dataType:'text',
+	    				type: 'delete',
+	    				success : function(result) {
+	    					if ("success"==result){
+	    						Common.showMsg('提示',"删除成功");
+	        				    search();
+	    					}else{
+	    						Common.showMsg('提示',"删除失败");
+	    					}
+	    					
+	    				}
+	    			});
+	            }
+	        });
+	        
+		}
+	function search(){
+		var name = $("#name").val();
+		$('#tb1').datagrid({
+            url:"/dictdata/getData.do",
+            queryParams:{
+            	dictId:menuId,
+            	dictdataName:name,
+            }
+        });
+	}
+	</script>
+</body>
+</html>
